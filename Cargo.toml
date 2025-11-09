@@ -1,0 +1,25 @@
+[package]
+name = "mermaid-typst"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ciborium = "0.2.1"
+serde = "1.0"
+wasm-minimal-protocol = "0.1.0"
+boa_engine = { version = "0.21.0", default-features = false, features = ["js"] }
+
+[target.wasm32-unknown-unknown]
+rustflags = '--cfg getrandom_backend="wasm_js"'
+
+[build-dependencies]
+reqwest = { version = "0.11", features = ["blocking"] }
+
+[profile.release]
+lto = true
+opt-level = 'z'
+codegen-units = 1
+panic = "abort"
